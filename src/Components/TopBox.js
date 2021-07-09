@@ -1,27 +1,20 @@
-import { Container, Card,  Button } from "react-bootstrap";
+import { Container, Card,  Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import MovieCard from "./MovieCard";
 
 function TopBox({ movies }) {
   return (
-    <Container fluid className="row">
+    <Container fluid>
+      <Row>
       {movies.map((movie, index) => {
           if (index < 4) {
-            return <Card key={index} className="mx-auto my-3 p-0 col-lg-2 col-md-4 col-sm-6">
-            <Card.Img variant="top" src= {movie.imgSrc} style={{height: '200px'}}/>
-            <Card.Body>
-              <Card.Title>{movie.name}</Card.Title>
-              <Card.Text>
-                {
-                    movie.synopsis
-                }
-              </Card.Text>
-              <Link to='reviewPage'>
-              <Button variant="primary">See review</Button>
-              </Link>
-            </Card.Body>
-          </Card>;   
+            return (
+        <Col lg={3} md={4} sm={12} xs={12} className="my-3">
+          <MovieCard index={index} name={movie.movie_name} imgSrc={`https://pnay.org.il/productImages2/201/2017/05/30/image1496137054.jpg`} synopsis={movie.synopsis.slice(0,50)+ "..."}></MovieCard>
+          </Col>);   
           }
       })}
+      </Row>
     </Container >
   );
 }

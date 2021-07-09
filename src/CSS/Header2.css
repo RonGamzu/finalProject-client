@@ -1,0 +1,7 @@
+.navLink{
+  color: orange;
+  text-decoration: none;
+}
+.navbar-dark, .navbar-nav, .nav-link {
+    color:orange !important;
+}
