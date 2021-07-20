@@ -6,7 +6,6 @@ import GenrePage from "./GenrePage";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import AllMovies from "./AllMovies";
-import Profile from "./Profile";
 import AddMovie from "./AddMovie";
 import AddReview from "./AddReview";
 import MyReviews from "./MyReviews";
@@ -45,7 +44,7 @@ function Main(props) {
     console.log("logIn  MAIN", response);
     if (response.length) {
       setConnected(response);
-      Cookies.set("user",  response);
+      Cookies.set("user", response);
     }
     return response;
   };
@@ -61,7 +60,7 @@ function Main(props) {
   useEffect(() => {
     readCookie();
   }, []);
-  
+
   const handleSignUp = async (user) => {
     const response = await postData("http://localhost:3100/signUp", user);
     console.log("signUp response", response);
@@ -73,7 +72,7 @@ function Main(props) {
 
   const handleLogOut = () => {
     setConnected(false);
-    Cookies.remove('user')
+    Cookies.remove("user");
   };
 
   useEffect(() => {
@@ -98,6 +97,8 @@ function Main(props) {
           </Route>
           <Route exact path="/signUp">
             <SignUp
+              readCookie={readCookie}
+              handleLogIn={handleLogIn}
               connected={connected}
               handleSignUp={handleSignUp}
               genres={genres}
@@ -133,9 +134,6 @@ function Main(props) {
               connected={connected}
               genres={genres}
             />
-          </Route>
-          <Route exact path="/profile">
-            <Profile genres={["Action", "Comedy", "Drama", "Romantic"]} />
           </Route>
           <Route exact path="/">
             <HomePage movies={movies} />

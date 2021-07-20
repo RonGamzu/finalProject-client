@@ -6,21 +6,14 @@ import * as Yup from "yup";
 import ErrorMessage from "./ErrorMessage";
 import { useHistory } from "react-router";
 import { getUserFavorites, putData } from "../DAL/api";
+import Cookies from "js-cookie";
 
-export default function SignUp({ connected, genres, handleSignUp }) {
+export default function SignUp({ connected, genres, handleSignUp, readCookie }) {
   let history = useHistory();
   function handleClick() {
     history.push("/home");
   }
   console.log("log from signUp: ", connected);
-  const initialValues = {
-    enableReinitialize: connected,
-    userName: connected ? connected[0].user_name : "",
-    email: connected ? connected[0].email : "",
-    password: connected ? connected[0].password : "",
-    confirmPassword: connected ? connected[0].password : "",
-    genres: [],
-  };
 
   const validationSchema = Yup.object({
     userName: Yup.string()
@@ -37,7 +30,14 @@ export default function SignUp({ connected, genres, handleSignUp }) {
 
   const [submitError, setSubmitError] = useState(null);
   const formik = useFormik({
-    initialValues,
+    enableReinitialize: true,
+    initialValues: {
+      userName: connected ? connected[0].user_name : "",
+      email: connected ? connected[0].email : "",
+      password: connected ? connected[0].password : "",
+      confirmPassword: connected ? connected[0].password : "",
+      genres: [],
+    },
     validationSchema,
     onSubmit: async (values) => {
       if (!connected) {
@@ -49,20 +49,26 @@ export default function SignUp({ connected, genres, handleSignUp }) {
           setSubmitError(null);
           handleClick();
         }
-      }else{
-        const submit = await putData("http://localhost:3100/signUp/update", values)
-          handleClick();
+      } else {
+        const updatedDetails = await putData(
+          "http://localhost:3100/signUp/update",
+          values
+        );
+        console.log('updatedDetails PROFILE: ', updatedDetails);
+        Cookies.set("user",  updatedDetails[0]);
+        readCookie();
+        handleClick();
       }
     },
   });
 
-const [userFavorites, setUserFavorites] = useState([])
+  const [userFavorites, setUserFavorites] = useState([]);
   useEffect(async () => {
     if (connected) {
       const favoritesGenres = await getUserFavorites(connected[0].id);
-      setUserFavorites(favoritesGenres[0])
+      setUserFavorites(favoritesGenres[0]);
     }
-  },[])
+  }, []);
 
   console.log("formik values", formik.values);
   console.log("genressssss", genres);
@@ -160,30 +166,36 @@ const [userFavorites, setUserFavorites] = useState([])
             </Form.Group>
           </Col>
         </Row>
-{!connected &&
-        <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
-            <Form.Label>Genres you like:</Form.Label>
-            <Form.Group role="group" aria-labelledby="checkbox-group">
-              {genres.map((genre, index) => (
-                <Form.Check
-                // checked={userFavorites.map(item => item.genre_id).includes(genre.id) ? true : false}
-                defaultChecked={userFavorites.map(item => item.genre_id).includes(genre.id) ? true : false}
-                  inline
-                  key={genre.name}
-                  label={genre.name}
-                  value={genre.id}
-                  name="genres"
-                  type="checkbox"
-                  // onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  // id={`inline-checkbox-1`}
-                />
-              ))}
-            </Form.Group>
-          </Col>
-        </Row>
- } 
+        {!connected && (
+          <Row className="justify-content-center">
+            <Col lg={4} xm={6}>
+              <Form.Label>Genres you like:</Form.Label>
+              <Form.Group role="group" aria-labelledby="checkbox-group">
+                {genres.map((genre, index) => (
+                  <Form.Check
+                    // checked={userFavorites.map(item => item.genre_id).includes(genre.id) ? true : false}
+                    defaultChecked={
+                      userFavorites
+                        .map((item) => item.genre_id)
+                        .includes(genre.id)
+                        ? true
+                        : false
+                    }
+                    inline
+                    key={genre.name}
+                    label={genre.name}
+                    value={genre.id}
+                    name="genres"
+                    type="checkbox"
+                    // onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    // id={`inline-checkbox-1`}
+                  />
+                ))}
+              </Form.Group>
+            </Col>
+          </Row>
+        )}
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             {submitError && <div style={{ color: "red" }}>{submitError}</div>}
