@@ -5,10 +5,9 @@ import "../CSS/AddReview.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ErrorMessage from "./ErrorMessage";
-import { getReviewById, ifMovieExists, postData } from "../DAL/api";
+import { getReviewById, ifMovieExists, postData, putData } from "../DAL/api";
 import AddMovieError from "./AddMovieError";
-import { useParams } from "react-router";
-
+import { useHistory, useParams } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
@@ -21,23 +20,57 @@ const labels = {
 5: ''
 };
 
-// const useStyles = makeStyles({
-//   root: {
-//     width: 200,
-//     display: "flex",
-//     alignItems: "center",
-//   },
-// });
-
-export default function AddReview({ connected, handleAddReview }) {
+export default function EditReview({ connected, handleAddReview }) {
   const [hover, setHover] = useState(-1);
 
-  const initialValues = {
-    movieName: "",
+  let history = useHistory();
+  function handleClick() {
+    history.push("/myReviews");
+  }
+  const { id } = useParams();
+  console.log("reviewId! @# ", id);
+  const [review, setReview] = useState({
+    movie_name: "",
     title: "",
-    review: "",
-    rating: 5,
-  };
+    review_body: "",
+    rating: '',
+  });
+  //   const [reviewDetails, setReviewDetails] = useState({});
+  useEffect(() => {
+    const callApi = async () => {
+      console.log("reviewId! @# ", id);
+      const reviewDetails = await getReviewById(id);
+      //   setReviewDetails(r[0][0]);
+      setReview(reviewDetails[0][0]);
+      console.log("EDIT REVIEW: ", review);
+    };
+    callApi();
+  }, []);
+  //   useEffect(async () => {
+  //     initialValues.movieName = reviewDetails ? reviewDetails.movie_name : ''
+  //     initialValues.title = reviewDetails ? reviewDetails.title : ''
+  //     initialValues.review = reviewDetails ? reviewDetails.review : ''
+  //     initialValues.rating = reviewDetails ? reviewDetails.rating : ''
+
+  //   }, [reviewDetails]);
+
+  console.log("EDIT REVIEW the firstt: ", review);
+
+  //   const initialValues = {
+  //     movieName: '',
+  //     title: '',
+  //     review: '',
+  //     rating: '',
+  //   };
+  ///////////////////////////////////////////
+  // const initialValues = {
+  //   enableReinitialize: true,
+  //   movieName: review.movie_name,
+  //   title: review.title,
+  //   review: review.review_body,
+  //   rating: review.rating,
+  // };
+  /////////////////////////////////////////
   const validationSchema = Yup.object({
     movieName: Yup.string().required("Required"),
     title: Yup.string().max(45, "Max characters is 45").required("Required"),
@@ -68,38 +101,45 @@ export default function AddReview({ connected, handleAddReview }) {
   };
 
   const formik = useFormik({
-    initialValues,
+    enableReinitialize: true,
+    initialValues: {
+      movieName: review?.movie_name || "",
+      title: review?.title || "",
+      review: review?.review_body || "",
+      rating: review?.rating || "",
+    },
     validationSchema,
     onSubmit: async (values) => {
       const { id: movieId } = movieExists;
       const { id: userId } = connected[0];
       console.log("movieId: ", movieId, ".//////userId: ", userId);
-      const submit = await postData("http://localhost:3100/reviews", {
+      const submit = await putData("http://localhost:3100/reviews/update", {
         ...values,
         movieId,
         userId,
+        reviewId: id,
       });
       console.log("AddReview WOWWWWW: ", submit);
       if (!submit.length) {
         console.log("not find user!!!");
-        setSubmitError("The email address already exists");
+        setSubmitError("error");
       } else {
         setSubmitError(null);
+        handleClick();
       }
     },
   });
-  console.log("review formik values: ", formik.values);
+  console.log("EDITreview formik values: ", formik.values);
   return (
     <Container fluid>
       <Form className="mt-4" onSubmit={formik.handleSubmit}>
-        <h2 className="text-center" style={{ color: "orange" }}>
-          Add new review
-        </h2>
+        <h2 className="text-center" style={{ color: "orange" }}>Edit Review</h2>
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group>
               <Form.Label>Movie</Form.Label>
               <Form.Control
+                disabled={true}
                 type="text"
                 name="movieName"
                 onBlur={(e) => {
@@ -108,6 +148,7 @@ export default function AddReview({ connected, handleAddReview }) {
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.movieName}
+                // defaultValue={review.movie_name}
                 placeholder="movie name"
               />
               {formik.touched.movieName && formik.errors.movieName ? (
@@ -127,8 +168,8 @@ export default function AddReview({ connected, handleAddReview }) {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.title}
+                // defaultValue={review.title}
                 placeholder="Review title"
-                disabled={!movieExists}
               />
               {formik.touched.title && formik.errors.title ? (
                 <ErrorMessage message={formik.errors.title} />
@@ -149,8 +190,8 @@ export default function AddReview({ connected, handleAddReview }) {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.review}
+                // defaultValue={review.review_body}
                 rows={4}
-                disabled={!movieExists}
               />
               {formik.touched.review && formik.errors.review ? (
                 <ErrorMessage message={formik.errors.review} />
@@ -174,22 +215,23 @@ export default function AddReview({ connected, handleAddReview }) {
               {formik.values.rating !== null && (
                 <Box ml={2}>{labels[hover !== -1 ? hover : formik.values.rating]}</Box>
               )}
+
               {/* <select
+                defaultChecked={review.rating}
                 name="rating"
                 class="custom-select"
                 id="inputGroupSelect01"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                disabled={!movieExists}
+                value={formik.values.rating}
               >
-                <option disabled selected>
-                  stars
-                </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option disabled>stars</option>
+
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
               </select> */}
               {/* /////////////////////////////////// */}
               {/* <RangeSlider
@@ -212,7 +254,7 @@ export default function AddReview({ connected, handleAddReview }) {
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Button type="submit" disabled={!(formik.isValid && formik.dirty)}>
-              Add Review
+              Update Review
             </Button>
           </Col>
         </Row>

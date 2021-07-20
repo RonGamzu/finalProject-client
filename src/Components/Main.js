@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { postData } from "../DAL/api";
 import HomePage from "./HomePage";
 import GenrePage from "./GenrePage";
@@ -9,84 +9,141 @@ import AllMovies from "./AllMovies";
 import Profile from "./Profile";
 import AddMovie from "./AddMovie";
 import AddReview from "./AddReview";
-import ReviewPage from "./ReviewPage";
 import MyReviews from "./MyReviews";
-import Header2 from './Header2'
-import {getDummyMovies} from '../DAL/api'
- 
+import EditReview from "./EditReview";
+import Header from "./Header";
+import { getAllMovies, getAllGenres } from "../DAL/api";
+import MoviePage2 from "./MoviePage";
+import AuthApi from "./AuthApi";
+import ProtectedRoute from "./ProtectedRoute";
+import Cookies from "js-cookie";
 function Main(props) {
   // const [movies, setMovies] = useState(getMovies());
   const [movies, setMovies] = useState([]);
-  const [genre,setGenre]=useState('');
   const [connected, setConnected] = useState(false);
-  const handleSelect=(e)=>{
-    console.log(e);
-    setGenre(e)
-  }
-  const fetchMoviesHandler = async () => {
-    getDummyMovies().then(data => {setMovies(data); console.log(data);})
-  }
+  const [genres, setGenres] = useState([]);
 
-  const handleLogIn = async (user) =>{
-    const response = await postData('http://localhost:3100/logIn', user)
+  // const [auth, setAuth] = useState(false);
+  // const Auth = useContext(AuthApi);
+
+  useEffect(async () => {
+    const allGenres = await getAllGenres();
+    setGenres(allGenres[0]);
+    console.log("get all genres for dropdown: ", allGenres);
+  }, []);
+
+  const getMoviesData = async () => {
+    getAllMovies().then((data) => {
+      console.log("my STATE movies: ", data[0]);
+      setMovies(data[0]);
+    });
+    console.log(movies);
+  };
+
+  const handleLogIn = async (user) => {
+    const response = await postData("http://localhost:3100/logIn", user);
+    console.log("logIn  MAIN", response);
     if (response.length) {
-      setConnected(response)
+      setConnected(response);
+      Cookies.set("user",  response);
     }
-    return response
-  }
+    return response;
+  };
 
-  const handleLogOut = () =>{
-      setConnected(false)
-  }
+  const readCookie = () => {
+    const user = Cookies.get("user");
+    // console.log('what is user??? :',[JSON.parse(user)] );
+    if (user) {
+      setConnected(JSON.parse(user));
+    }
+  };
 
   useEffect(() => {
-    fetchMoviesHandler()
-    return () => {
-      // cleanup
+    readCookie();
+  }, []);
+  
+  const handleSignUp = async (user) => {
+    const response = await postData("http://localhost:3100/signUp", user);
+    console.log("signUp response", response);
+    if (response[0][0]) {
+      setConnected(response[0]);
     }
-  }, [])
+    return response[0];
+  };
 
+  const handleLogOut = () => {
+    setConnected(false);
+    Cookies.remove('user')
+  };
+
+  useEffect(() => {
+    getMoviesData();
+  }, []);
+  console.log("coneccteddddddddd", connected);
   return (
+    // <AuthApi.Provider value={{ connected, setConnected }}>
     <Router>
-      <Header2 connected={connected} handleLogOut={handleLogOut} handleSelect={handleSelect}/>
+      <Header
+        connected={connected}
+        handleLogOut={handleLogOut}
+        genres={genres}
+      />
       <div>
         <Switch>
           <Route exact path="/home">
             <HomePage movies={movies} />
           </Route>
           <Route exact path="/logIn">
-            <LogIn handleLogIn={handleLogIn}/>
+            <LogIn handleLogIn={handleLogIn} />
           </Route>
           <Route exact path="/signUp">
-            <SignUp genres= {['Action', 'Comedy', 'Drama', 'Romantic']}/>
+            <SignUp
+              connected={connected}
+              handleSignUp={handleSignUp}
+              genres={genres}
+            />
           </Route>
-          <Route exact path="/genrePage">
-              <GenrePage movies={movies} genre={genre}/>
+          <Route exact path="/genrePage/:genreId">
+            <GenrePage movies={movies} genres={genres} />
           </Route>
           <Route exact path="/allMovies">
-              <AllMovies movies={movies}/>
+            <AllMovies movies={movies} />
           </Route>
-          <Route exact path="/reviewPage">
-          <ReviewPage />
+          <Route exact path="/moviePage/:id">
+            <MoviePage2 />
           </Route>
-          <Route exact path="/myReviews">
-          <MyReviews />
-          </Route>
+          {/* <Route exact path="/myReviews">
+            <MyReviews connected={connected} />
+          </Route> */}
+          <ProtectedRoute
+            exact
+            path="/myReviews"
+            connected={connected}
+            component={MyReviews}
+          />
           <Route exact path="/addReview">
-          <AddReview />
+            <AddReview connected={connected} />
+          </Route>
+          <Route exact path="/editReview/:id">
+            <EditReview connected={connected} />
           </Route>
           <Route exact path="/addMovie">
-          <AddMovie genres= {['Action', 'Comedy', 'Drama', 'Romantic']}/>
+            <AddMovie
+              getMoviesData={getMoviesData}
+              connected={connected}
+              genres={genres}
+            />
           </Route>
           <Route exact path="/profile">
-          <Profile genres= {['Action', 'Comedy', 'Drama', 'Romantic']}/>
+            <Profile genres={["Action", "Comedy", "Drama", "Romantic"]} />
           </Route>
           <Route exact path="/">
-          <HomePage movies={movies} />
+            <HomePage movies={movies} />
           </Route>
         </Switch>
       </div>
     </Router>
+    // </AuthApi.Provider>
   );
 }
 

@@ -5,7 +5,7 @@ import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./CSS/Header2.css"
+// import "./CSS/Header.css"
 
 
 ReactDOM.render(

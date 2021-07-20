@@ -1,10 +1,10 @@
 import { Col, Form, Row } from "react-bootstrap";
 
-export default function MovieSearch(params) {
+export default function MovieSearch({setSearchTerm}) {
   return (
-    <Form style={{ color: "white", width: "60%" }}>
-      <Row>
-        <Col sm={12} xm={12}>
+    <Form style={{ color: "white", width: "100%" }}>
+      <Row  className="justify-content-center">
+        {/* <Col sm={12} xm={12}>
           <Form.Label>Show me:</Form.Label>
           <Form.Group>
             <Form.Check
@@ -22,15 +22,10 @@ export default function MovieSearch(params) {
               // id={`inline-${type}-2`}
             />
           </Form.Group>
-        </Col>
-        <Col sm={12} xm={12}>
+        </Col> */}
+        <Col lg={5} sm={12} xm={12}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Control type="email" placeholder="Enter email" />
-          </Form.Group>
-        </Col>
-        <Col sm={12} xm={12}>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="text" placeholder="Search" onChange={(event)=> {setSearchTerm(event.target.value)}} />
           </Form.Group>
         </Col>
       </Row>

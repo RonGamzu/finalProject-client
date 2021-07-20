@@ -1,23 +1,44 @@
+import { useState, useEffect } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
+import { useParams } from "react-router";
+import { getAllMoviesOfGenre } from "../DAL/api";
 import MovieCard from "./MovieCard";
 
-function GenrePage({ genre, movies }) {
+function GenrePage({ genres, movies }) {
+  const { genreId } = useParams();
+  const [genreMovies, setGenreMovies] = useState([]);
+  useEffect(async () => {
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    const moviesOfGenre = await getAllMoviesOfGenre(genreId);
+    console.log("The movies of this genre: ", moviesOfGenre);
+    setGenreMovies(moviesOfGenre[0]);
+  }, [genreId]);
   return (
     <>
-      <Container  className="mt-4">
-        <h2 style={{ color: "orange" }}>{genre}</h2>
-        <Row>
-          {movies.map((movie, index) => {
-            if ('Action' === genre) {
+      {genres && (
+        <Container className="mt-4">
+          <h2 className='text-center' style={{ color: "orange" }}>
+            {genres
+              .filter((genre) => genre.id == genreId)
+              .map((genreName) => genreName.name)}
+          </h2>
+          <Row>
+            {genreMovies.map((movie, index) => {
               return (
-                <Col lg={3} md={4} sm={12} xs={12} className='my-3 h-50'>
-                  <MovieCard index={index} name={movie.movie_name} imgSrc={`https://pnay.org.il/productImages2/201/2017/05/30/image1496137054.jpg`} synopsis={movie.synopsis.slice(0,50) + '...'}/>
-                // </Col>
+                <Col lg={4} md={4} sm={12} xs={12} className="my-3 h-50">
+                  <MovieCard
+                    id={movie.id}
+                    index={index}
+                    name={movie.movie_name}
+                    imgSrc={movie.image_path}
+                    synopsis={movie.synopsis}
+                  />
+                </Col>
               );
-            }
-          })}
-        </Row>
-      </Container>
+            })}
+          </Row>
+        </Container>
+      )}
     </>
   );
 }
