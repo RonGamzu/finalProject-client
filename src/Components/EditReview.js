@@ -5,7 +5,7 @@ import "../CSS/AddReview.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ErrorMessage from "./ErrorMessage";
-import { getReviewById, ifMovieExists, postData, putData } from "../DAL/api";
+import { getReviewById, ifMovieExists, deleteData, putData } from "../DAL/api";
 import AddMovieError from "./AddMovieError";
 import { useHistory, useParams } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,6 +46,13 @@ export default function EditReview({ connected, handleAddReview }) {
     };
     callApi();
   }, []);
+
+  const deleteReview = async() => {
+    const ok = await deleteData('http://localhost:3100/reviews',{id : id});
+    console.log('that what i delete: ', ok);
+    handleClick();
+  }
+
   //   useEffect(async () => {
   //     initialValues.movieName = reviewDetails ? reviewDetails.movie_name : ''
   //     initialValues.title = reviewDetails ? reviewDetails.title : ''
@@ -255,6 +262,9 @@ export default function EditReview({ connected, handleAddReview }) {
           <Col lg={4} xm={6}>
             <Button type="submit" disabled={!(formik.isValid && formik.dirty)}>
               Update Review
+            </Button>
+            <Button className='ml-3' variant='danger' onClick={deleteReview}>
+            Delete Review
             </Button>
           </Col>
         </Row>

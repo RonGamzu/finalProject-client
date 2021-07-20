@@ -28,7 +28,6 @@ export default function MyReviews({ connected, rest }) {
             <th>Movie Name</th>
             <th>Post Date</th>
             <th>Edit</th>
-            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +38,6 @@ export default function MyReviews({ connected, rest }) {
               <td>{review.movie_name}</td>
               <td>{review.post_date.split("T")[0]}</td>
               <td className='text-center'><Button review={review} onClick={()=>handleClick(review.id)}><AiTwotoneEdit /></Button></td>
-              <td className='text-center'><Button variant='danger'><AiOutlineDelete /></Button></td>
             </tr>
             )
           })}

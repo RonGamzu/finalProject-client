@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import ErrorMessage from "./ErrorMessage";
 import { getReviewById, ifMovieExists, postData } from "../DAL/api";
 import AddMovieError from "./AddMovieError";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
@@ -31,7 +31,10 @@ const labels = {
 
 export default function AddReview({ connected, handleAddReview }) {
   const [hover, setHover] = useState(-1);
-
+  let history = useHistory();
+  function handleClick() {
+    history.push("/myReviews");
+  }
   const initialValues = {
     movieName: "",
     title: "",
@@ -79,13 +82,9 @@ export default function AddReview({ connected, handleAddReview }) {
         movieId,
         userId,
       });
-      console.log("AddReview WOWWWWW: ", submit);
-      if (!submit.length) {
-        console.log("not find user!!!");
-        setSubmitError("The email address already exists");
-      } else {
-        setSubmitError(null);
-      }
+      console.log("DELETE Review WOWWWWW: ", submit);
+        console.log('handleClick();');
+        handleClick();
     },
   });
   console.log("review formik values: ", formik.values);
