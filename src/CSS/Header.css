@@ -5,3 +5,18 @@
 .navbar-dark, .navbar-nav, .nav-link {
     color:orange !important;
 }
+.greenLogIn{
+    color:white !important;
+}
+.signUp{
+    color:white !important;
+}
+.logOut{
+    color:rgb(204, 204, 204) !important;
+}
+.bold {
+  font-weight: bold;
+}
+.choose:hover {
+  color: white !important;
+}
