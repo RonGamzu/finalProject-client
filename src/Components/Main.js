@@ -12,7 +12,7 @@ import MyReviews from "./MyReviews";
 import EditReview from "./EditReview";
 import Header from "./Header";
 import { getAllMovies, getAllGenres } from "../DAL/api";
-import MoviePage2 from "./MoviePage";
+import MoviePage from "./MoviePage";
 import AuthApi from "./AuthApi";
 import ProtectedRoute from "./ProtectedRoute";
 import Cookies from "js-cookie";
@@ -111,7 +111,7 @@ function Main(props) {
             <AllMovies movies={movies} />
           </Route>
           <Route exact path="/moviePage/:id">
-            <MoviePage2 />
+            <MoviePage />
           </Route>
           {/* <Route exact path="/myReviews">
             <MyReviews connected={connected} />

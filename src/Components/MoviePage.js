@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 import { getMovieDetails, getMovieImage, getMovieReviews } from "../DAL/api";
 import YouTube from "react-youtube";
 
-export default function MoviePage2() {
+export default function MoviePage() {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieImage, setMovieImage] = useState(null);
@@ -34,7 +34,7 @@ export default function MoviePage2() {
   };
   return (
     <div>
-      {(movieReviews && movieImage && movieDetails) ? 
+      {movieReviews && movieImage && movieDetails ? (
         <Container className="mb-4 mt-4">
           <Row>
             <Col lg={4} md={12} sm={12} xs={12}>
@@ -44,7 +44,7 @@ export default function MoviePage2() {
               />
             </Col>
             <Col lg={4} md={4} sm={12} xs={12}>
-              <div className="text-center" style={{wordBreak: 'break-all'}}>
+              <div className="text-center" style={{ wordBreak: "break-all" }}>
                 <h2 style={{ color: "orange" }}>
                   {/* {movieDetails && movieDetails.movie_name} */}
                   {movieDetails.movie_name}
@@ -66,7 +66,7 @@ export default function MoviePage2() {
 
           <Row>
             <Col>
-              <Accordion defaultActiveKey="0">
+              <Accordion defaultActiveKey="0" style={{ cursor: "pointer" }}>
                 {movieReviews.map((review, index) => {
                   return (
                     <Card>
@@ -80,7 +80,7 @@ export default function MoviePage2() {
                           {Array(review.rating)
                             .fill(review.rating)
                             .map(() => (
-                              <BsFillStarFill style={{color: '#ffb400'}}/>
+                              <BsFillStarFill style={{ color: "#ffb400" }} />
                             ))}
                         </div>
                       </Accordion.Toggle>
@@ -144,7 +144,7 @@ export default function MoviePage2() {
             </Col>
           </Row>
         </Container>
-       : null}
+      ) : null}
     </div>
   );
 }
