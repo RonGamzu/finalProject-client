@@ -89,13 +89,15 @@ export default function AddReview({ connected, handleAddReview }) {
   });
   console.log("review formik values: ", formik.values);
   return (
-    <Container fluid>
-      <Form className="mt-4" onSubmit={formik.handleSubmit}>
+    <Container >
+      <Row className="justify-content-center">
+        <Col lg={6}>
+      <Form className="mt-4 form-container" onSubmit={formik.handleSubmit}>
         <h2 className="text-center" style={{ color: "orange" }}>
           Add new review
         </h2>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={8}>
             <Form.Group>
               <Form.Label>Movie</Form.Label>
               <Form.Control
@@ -117,7 +119,7 @@ export default function AddReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={8}>
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -136,7 +138,7 @@ export default function AddReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={8}>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
@@ -158,7 +160,7 @@ export default function AddReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={8}>
             <Form.Group controlId="formGridState">
               <Form.Label style={{display: 'block'}}>Rate</Form.Label>
               <Rating
@@ -209,13 +211,15 @@ export default function AddReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
-            <Button type="submit" disabled={!(formik.isValid && formik.dirty)}>
+          <Col lg={8}>
+            <Button variant='warning' type="submit" disabled={!(formik.isValid && formik.dirty)}>
               Add Review
             </Button>
           </Col>
         </Row>
       </Form>
+      </Col>
+      </Row>
     </Container>
   );
 }
