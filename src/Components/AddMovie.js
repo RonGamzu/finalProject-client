@@ -7,6 +7,7 @@ import ErrorMessage from "./ErrorMessage";
 import { ifMovieExists, postData } from "../DAL/api";
 import AddMovieError from "./AddMovieError";
 import "../CSS/AddMovie.css";
+import { useHistory } from "react-router";
 
 export default function AddMovie({
   getMoviesData,
@@ -14,6 +15,10 @@ export default function AddMovie({
   connected,
   handleSignUp,
 }) {
+  let history = useHistory();
+  function handleClick() {
+    history.push("/allMovies");
+  }
   const initialValues = {
     movieName: "",
     coverUrl: "",
@@ -80,6 +85,7 @@ export default function AddMovie({
         setSubmitError("Email is already exists");
       } else {
         getMoviesData();
+        handleClick();
         setSubmitError(null);
       }
     },

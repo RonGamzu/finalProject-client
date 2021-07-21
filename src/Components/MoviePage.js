@@ -67,47 +67,47 @@ export default function MoviePage() {
 
           <Row>
             <Col>
-            <Link to={`/addReview/${movieDetails.movie_name}`}>
-            <Button className='mb-3' variant='warning' type="submit">
-              Add Review
-            </Button>
-            </Link>
-            {movieReviews.length > 0 ? (
-              <Accordion defaultActiveKey="0" style={{ cursor: "pointer" }}>
-                {movieReviews.map((review, index) => {
-                  return (
-                    <Card>
-                      <Accordion.Toggle
-                        className="d-flex justify-content-between"
-                        as={Card.Header}
-                        eventKey={index + 1}
-                      >
-                        <div>{review.title}</div>
-                        <div>
-                          {Array(review.rating)
-                            .fill(review.rating)
-                            .map(() => (
-                              <BsFillStarFill style={{ color: "#ffb400" }} />
-                            ))}
-                        </div>
-                      </Accordion.Toggle>
-                      <Accordion.Collapse eventKey={index + 1}>
-                        <Card.Body>
-                          <p>
-                            By: {review.user_name} <br /> post on:{" "}
-                            {review.post_date.split("T")[0]}
-                          </p>
-                          <br />
-                          {review.review_body}
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                  );
-                })}
-              </Accordion>
-                          ):
-                          <h2 style={{color: 'white'}}>No reviews yet</h2>}
-
+              <Link to={`/addReview/${movieDetails.movie_name}`}>
+                <Button className="mb-3" variant="warning" type="submit">
+                  Add Review
+                </Button>
+              </Link>
+              {movieReviews.length > 0 ? (
+                <Accordion defaultActiveKey="0" style={{ cursor: "pointer" }}>
+                  {movieReviews.map((review, index) => {
+                    return (
+                      <Card>
+                        <Accordion.Toggle
+                          className="d-flex justify-content-between"
+                          as={Card.Header}
+                          eventKey={index + 1}
+                        >
+                          <div>{review.title}</div>
+                          <div>
+                            {Array(review.rating)
+                              .fill(review.rating)
+                              .map(() => (
+                                <BsFillStarFill style={{ color: "#ffb400" }} />
+                              ))}
+                          </div>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey={index + 1}>
+                          <Card.Body>
+                            <p>
+                              By: {review.user_name} <br /> post on:{" "}
+                              {review.post_date.split("T")[0]}
+                            </p>
+                            <br />
+                            {review.review_body}
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    );
+                  })}
+                </Accordion>
+              ) : (
+                <h2>No reviews yet</h2>
+              )}
             </Col>
           </Row>
         </Container>
