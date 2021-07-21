@@ -89,7 +89,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group controlId="formBasicUsername">
-              <Form.Label>User name</Form.Label>
+              <Form.Label className='bold'>User name</Form.Label>
               <Form.Control
                 type="text"
                 name="userName"
@@ -108,7 +108,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label className='bold'>Email address</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -131,7 +131,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label className='bold'>Password</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -150,7 +150,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group controlId="formBasicRepeatPassword">
-              <Form.Label>Confirm Password</Form.Label>
+              <Form.Label className='bold'>Confirm Password</Form.Label>
               <Form.Control
                 type="password"
                 name="confirmPassword"
@@ -169,7 +169,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         {!connected && (
           <Row className="justify-content-center">
             <Col lg={4} xm={6}>
-              <Form.Label>Genres you like:</Form.Label>
+              <Form.Label className='bold'>Genres you like:</Form.Label>
               <Form.Group role="group" aria-labelledby="checkbox-group">
                 {genres.map((genre, index) => (
                   <Form.Check

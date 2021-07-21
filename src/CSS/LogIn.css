@@ -1,7 +1,10 @@
-Form{
-    color: white;
-    width: 100%
+Form {
+  color: white;
+  width: 100%;
 }
-.error{
-    color: red;
+.error {
+  color: red;
+}
+.bold {
+  font-weight: bold;
 }

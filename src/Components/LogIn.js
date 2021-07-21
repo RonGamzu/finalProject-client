@@ -48,9 +48,9 @@ export default function LogIn({ handleLogIn }) {
       <Form className="myForm mt-5" onSubmit={formik.handleSubmit}>
         <h2 className='text-center' style={{ color: "orange" }}>Log in</h2>
         <Row className='mt-3 justify-content-center'>
-          <Col lg={4} sm={2}>
+          <Col lg={4} sm={6}>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label className='bold'>Email address</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -71,7 +71,7 @@ export default function LogIn({ handleLogIn }) {
         <Row className='justify-content-center'>
           <Col lg={4} sm={6}>
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label className='bold'>Password</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -92,7 +92,7 @@ export default function LogIn({ handleLogIn }) {
           </Col>
         </Row>
         <Row className='justify-content-center'>
-          <Col lg={4} xm={6}>
+          <Col lg={4} sm={6}>
             <Button 
               variant="primary"
               type="submit"
