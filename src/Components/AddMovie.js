@@ -88,7 +88,7 @@ export default function AddMovie({
   // console.log('**********************', formik.values.coverUrl);
 
   return (
-    <Container fluid>
+    <Container>
       <Row className="justify-content-center">
         <Col lg={6}>
           <Form className="mt-5 form-container" onSubmit={formik.handleSubmit}>
