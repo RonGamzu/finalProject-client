@@ -6,7 +6,7 @@ import { getMovieDetails, getMovieImage, getMovieReviews } from "../DAL/api";
 import YouTube from "react-youtube";
 import { Link } from "react-router-dom";
 
-export default function MoviePage() {
+export default function MoviePage({connected}) {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
   const [movieImage, setMovieImage] = useState(null);
@@ -34,7 +34,7 @@ export default function MoviePage() {
     },
   };
   return (
-    <div>
+    <>
       {movieReviews && movieImage && movieDetails ? (
         <Container className="mb-4 mt-4">
           <Row>
@@ -68,7 +68,7 @@ export default function MoviePage() {
           <Row>
             <Col>
               <Link to={`/addReview/${movieDetails.movie_name}`}>
-                <Button className="mb-3" variant="warning" type="submit">
+                <Button className="mb-3" variant="warning" type="submit" disabled={!connected}>
                   Add Review
                 </Button>
               </Link>
@@ -112,6 +112,6 @@ export default function MoviePage() {
           </Row>
         </Container>
       ) : null}
-    </div>
+    </>
   );
 }

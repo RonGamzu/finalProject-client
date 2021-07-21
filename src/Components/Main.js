@@ -111,7 +111,7 @@ function Main(props) {
             <AllMovies movies={movies} />
           </Route>
           <Route exact path="/moviePage/:id">
-            <MoviePage />
+            <MoviePage connected={connected}/>
           </Route>
           {/* <Route exact path="/myReviews">
             <MyReviews connected={connected} />
