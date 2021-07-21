@@ -75,8 +75,10 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
   console.log("O.K now i connected", connected);
 
   return (
-    <Container fluid>
-      <Form className="mt-4" onSubmit={formik.handleSubmit}>
+    <Container>
+                <Row className="justify-content-center">
+        <Col lg={6}>
+      <Form className="mt-5 form-container" onSubmit={formik.handleSubmit}>
         {connected ? (
           <h2 className="text-center" style={{ color: "orange" }}>
             Profile
@@ -87,7 +89,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
           </h2>
         )}
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group controlId="formBasicUsername">
               <Form.Label className='bold'>User name</Form.Label>
               <Form.Control
@@ -106,7 +108,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         </Row>
 
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label className='bold'>Email address</Form.Label>
               <Form.Control
@@ -129,7 +131,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         </Row>
 
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group controlId="formBasicPassword">
               <Form.Label className='bold'>Password</Form.Label>
               <Form.Control
@@ -148,7 +150,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         </Row>
 
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group controlId="formBasicRepeatPassword">
               <Form.Label className='bold'>Confirm Password</Form.Label>
               <Form.Control
@@ -168,7 +170,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
         </Row>
         {!connected && (
           <Row className="justify-content-center">
-            <Col lg={4} xm={6}>
+            <Col lg={11}>
               <Form.Label className='bold'>Genres you like:</Form.Label>
               <Form.Group role="group" aria-labelledby="checkbox-group">
                 {genres.map((genre, index) => (
@@ -197,17 +199,17 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
           </Row>
         )}
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             {submitError && <div style={{ color: "red" }}>{submitError}</div>}
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             {connected ? (
               <Button
                 className="mt-5"
                 style={{ display: "block" }}
-                variant="primary"
+                variant="warning"
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >
@@ -217,7 +219,7 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
               <Button
                 className="mt-5"
                 style={{ display: "block" }}
-                variant="primary"
+                variant="warning"
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
               >
@@ -227,6 +229,8 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
           </Col>
         </Row>
       </Form>
+      </Col>
+      </Row>
     </Container>
   );
 }

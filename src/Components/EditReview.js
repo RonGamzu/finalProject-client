@@ -12,6 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import DeleteModal from "./DeleteModal";
+import "../CSS/EditReview.css";
+
 
 const labels = {
   1: "",
@@ -117,13 +119,15 @@ export default function EditReview({ connected, handleAddReview }) {
   });
   console.log("EDITreview formik values: ", formik.values);
   return (
-    <Container fluid>
-      <Form className="mt-4" onSubmit={formik.handleSubmit}>
-        <h2 className="text-center" style={{ color: "orange" }}>
+    <Container>
+          <Row className="justify-content-center">
+        <Col lg={6}>
+      <Form className="mt-5 form-container" onSubmit={formik.handleSubmit}>
+        <h2 className="text-center">
           Edit Review
         </h2>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11} >
             <Form.Group>
               <Form.Label>Movie</Form.Label>
               <Form.Control
@@ -147,7 +151,7 @@ export default function EditReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -166,7 +170,7 @@ export default function EditReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
@@ -188,7 +192,7 @@ export default function EditReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
+          <Col lg={11}>
             <Form.Group controlId="formGridState">
               <Form.Label style={{ display: "block" }}>Rate</Form.Label>
               <Rating
@@ -205,36 +209,6 @@ export default function EditReview({ connected, handleAddReview }) {
                   {labels[hover !== -1 ? hover : formik.values.rating]}
                 </Box>
               )}
-
-              {/* <select
-                defaultChecked={review.rating}
-                name="rating"
-                class="custom-select"
-                id="inputGroupSelect01"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.rating}
-              >
-                <option disabled>stars</option>
-
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-              </select> */}
-              {/* /////////////////////////////////// */}
-              {/* <RangeSlider
-                // value={value}
-                // onChange={(changeEvent) => setValue(changeEvent.target.value)}
-                onChange={(changeEvent) => {formik.handleChange();setValue(changeEvent.target.value)}}
-                onBlur={formik.handleBlur}
-                // onChange={formik.handleChange}
-                value={formik.values.rating}
-                name="rating"
-                min="1"
-                max="5"
-              /> */}
               {formik.touched.rating && formik.errors.rating ? (
                 <ErrorMessage message={formik.errors.rating} />
               ) : null}
@@ -242,8 +216,8 @@ export default function EditReview({ connected, handleAddReview }) {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col lg={4} xm={6}>
-            <Button type="submit" disabled={!(formik.isValid && formik.dirty)}>
+          <Col lg={11}>
+            <Button  type="submit" disabled={!(formik.isValid && formik.dirty)}>
               Update Review
             </Button>
             {/* <Button className="ml-3" variant="danger" onClick={deleteReview}>
@@ -256,6 +230,8 @@ export default function EditReview({ connected, handleAddReview }) {
           </Col>
         </Row>
       </Form>
+      </Col>
+      </Row>
     </Container>
   );
 }

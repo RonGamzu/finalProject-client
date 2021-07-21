@@ -125,6 +125,9 @@ function Main(props) {
           <Route exact path="/addReview">
             <AddReview connected={connected} />
           </Route>
+          <Route exact path="/addReview/:movieName">
+            <AddReview connected={connected} />
+          </Route>
           <Route exact path="/editReview/:id">
             <EditReview connected={connected} />
           </Route>

@@ -5,6 +5,13 @@ Form{
 .error{
     color: red;
 }
+.form-container{
+    background-color: #343a40;
+    padding: 20px;
+}
+h2{
+    color: orange;
+}
 .bold {
     font-weight: bold;
   }

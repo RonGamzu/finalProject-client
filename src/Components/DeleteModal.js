@@ -15,7 +15,7 @@ function DeleteModal(props) {
         </Modal.Header>
         <Modal.Body>
           <p>
-          Are you sure want to delete the review? 
+          Are you sure you want to delete the review? 
           </p>
         </Modal.Body>
         <Modal.Footer>

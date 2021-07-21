@@ -6,7 +6,7 @@ Form{
     color: red;
 }
 .form-container{
-    background-color: #343a40;
+    border-radius: 16px;
     padding: 20px;
 }
 h2{

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Accordion, Container, Card, Row, Col } from "react-bootstrap";
+import { Accordion, Container, Card, Row, Col, Button } from "react-bootstrap";
 import { BsFillStarFill } from "react-icons/bs";
 import { useParams } from "react-router";
 import { getMovieDetails, getMovieImage, getMovieReviews } from "../DAL/api";
 import YouTube from "react-youtube";
+import { Link } from "react-router-dom";
 
 export default function MoviePage() {
   const { id } = useParams();
@@ -66,6 +67,12 @@ export default function MoviePage() {
 
           <Row>
             <Col>
+            <Link to={`/addReview/${movieDetails.movie_name}`}>
+            <Button className='mb-3' variant='warning' type="submit">
+              Add Review
+            </Button>
+            </Link>
+            {movieReviews.length > 0 ? (
               <Accordion defaultActiveKey="0" style={{ cursor: "pointer" }}>
                 {movieReviews.map((review, index) => {
                   return (
@@ -97,50 +104,10 @@ export default function MoviePage() {
                     </Card>
                   );
                 })}
-
-                {/* ////////////////////////////////////////////////
-            <Card>
-              <Accordion.Toggle
-                className="d-flex justify-content-between"
-                as={Card.Header}
-                eventKey="1"
-              >
-                Bad movie! <BsFillStarFill />
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="1">
-                <Card.Body>
-                  <p>
-                    from Ron Ganzu <br /> post on 13/7/20
-                  </p>
-                  <br />
-                  The baddest movie in the world!
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-            <Card>
-              <Accordion.Toggle
-                className="d-flex justify-content-between"
-                as={Card.Header}
-                eventKey="2"
-              >
-                Nice Movie!
-                <div>
-                  {[1, 1, 1].map(() => (
-                    <BsFillStarFill />
-                  ))}
-                </div>
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="2">
-                <Card.Body>
-                  <p>
-                    from Shay <br /> post on 13/7/20
-                  </p>
-                  <br />
-                  Just a movie
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card> */}
               </Accordion>
+                          ):
+                          <h2 style={{color: 'white'}}>No reviews yet</h2>}
+
             </Col>
           </Row>
         </Container>
