@@ -11,17 +11,19 @@ import { useHistory, useParams } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
+import DeleteModal from "./DeleteModal";
 
 const labels = {
-1: '',
-2: '',
-3: '',
-4: '',
-5: ''
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  5: "",
 };
 
 export default function EditReview({ connected, handleAddReview }) {
   const [hover, setHover] = useState(-1);
+  const [modalShow, setModalShow] = useState(false);
 
   let history = useHistory();
   function handleClick() {
@@ -33,7 +35,7 @@ export default function EditReview({ connected, handleAddReview }) {
     movie_name: "",
     title: "",
     review_body: "",
-    rating: '',
+    rating: "",
   });
   //   const [reviewDetails, setReviewDetails] = useState({});
   useEffect(() => {
@@ -47,37 +49,14 @@ export default function EditReview({ connected, handleAddReview }) {
     callApi();
   }, []);
 
-  const deleteReview = async() => {
-    const ok = await deleteData('http://localhost:3100/reviews',{id : id});
-    console.log('that what i delete: ', ok);
+  const deleteReview = async () => {
+    const ok = await deleteData("http://localhost:3100/reviews", { id: id });
+    console.log("that what i delete: ", ok);
     handleClick();
-  }
-
-  //   useEffect(async () => {
-  //     initialValues.movieName = reviewDetails ? reviewDetails.movie_name : ''
-  //     initialValues.title = reviewDetails ? reviewDetails.title : ''
-  //     initialValues.review = reviewDetails ? reviewDetails.review : ''
-  //     initialValues.rating = reviewDetails ? reviewDetails.rating : ''
-
-  //   }, [reviewDetails]);
+  };
 
   console.log("EDIT REVIEW the firstt: ", review);
 
-  //   const initialValues = {
-  //     movieName: '',
-  //     title: '',
-  //     review: '',
-  //     rating: '',
-  //   };
-  ///////////////////////////////////////////
-  // const initialValues = {
-  //   enableReinitialize: true,
-  //   movieName: review.movie_name,
-  //   title: review.title,
-  //   review: review.review_body,
-  //   rating: review.rating,
-  // };
-  /////////////////////////////////////////
   const validationSchema = Yup.object({
     movieName: Yup.string().required("Required"),
     title: Yup.string().max(45, "Max characters is 45").required("Required"),
@@ -140,7 +119,9 @@ export default function EditReview({ connected, handleAddReview }) {
   return (
     <Container fluid>
       <Form className="mt-4" onSubmit={formik.handleSubmit}>
-        <h2 className="text-center" style={{ color: "orange" }}>Edit Review</h2>
+        <h2 className="text-center" style={{ color: "orange" }}>
+          Edit Review
+        </h2>
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group>
@@ -209,7 +190,7 @@ export default function EditReview({ connected, handleAddReview }) {
         <Row className="justify-content-center">
           <Col lg={4} xm={6}>
             <Form.Group controlId="formGridState">
-              <Form.Label style={{display: 'block'}}>Rate</Form.Label>
+              <Form.Label style={{ display: "block" }}>Rate</Form.Label>
               <Rating
                 name="rating"
                 value={formik.values.rating}
@@ -220,7 +201,9 @@ export default function EditReview({ connected, handleAddReview }) {
                 }}
               />
               {formik.values.rating !== null && (
-                <Box ml={2}>{labels[hover !== -1 ? hover : formik.values.rating]}</Box>
+                <Box ml={2}>
+                  {labels[hover !== -1 ? hover : formik.values.rating]}
+                </Box>
               )}
 
               {/* <select
@@ -263,9 +246,13 @@ export default function EditReview({ connected, handleAddReview }) {
             <Button type="submit" disabled={!(formik.isValid && formik.dirty)}>
               Update Review
             </Button>
-            <Button className='ml-3' variant='danger' onClick={deleteReview}>
-            Delete Review
+            {/* <Button className="ml-3" variant="danger" onClick={deleteReview}>
+              Delete Review
+            </Button> */}
+            <Button className="ml-3" variant="danger" onClick={() => setModalShow(true)}>
+              Delete Review
             </Button>
+            <DeleteModal show={modalShow} deleteReview={deleteReview} onHide={() => setModalShow(false)} />
           </Col>
         </Row>
       </Form>
