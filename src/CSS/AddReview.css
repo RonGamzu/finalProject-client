@@ -5,3 +5,10 @@ Form{
 .error{
     color: red;
 }
+.form-container{
+    border: 2px solid orange;
+    border-radius: 16px;
+    background-color: #343a40;
+    padding: 20px;
+}
+
