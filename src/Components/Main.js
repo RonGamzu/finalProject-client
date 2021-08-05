@@ -28,20 +28,16 @@ function Main(props) {
   useEffect(async () => {
     const allGenres = await getAllGenres();
     setGenres(allGenres[0]);
-    console.log("get all genres for dropdown: ", allGenres);
   }, []);
 
   const getMoviesData = async () => {
     getAllMovies().then((data) => {
-      console.log("my STATE movies: ", data[0]);
       setMovies(data[0]);
     });
-    console.log(movies);
   };
 
   const handleLogIn = async (user) => {
     const response = await postData("http://localhost:3100/logIn", user);
-    console.log("logIn  MAIN", response);
     if (response.length) {
       setConnected(response);
       Cookies.set("user", response);
@@ -51,7 +47,6 @@ function Main(props) {
 
   const readCookie = () => {
     const user = Cookies.get("user");
-    // console.log('what is user??? :',[JSON.parse(user)] );
     if (user) {
       setConnected(JSON.parse(user));
     }
@@ -63,7 +58,6 @@ function Main(props) {
 
   const handleSignUp = async (user) => {
     const response = await postData("http://localhost:3100/signUp", user);
-    console.log("signUp response", response);
     if (response[0][0]) {
       setConnected(response[0]);
     }
@@ -78,7 +72,6 @@ function Main(props) {
   useEffect(() => {
     getMoviesData();
   }, []);
-  console.log("coneccteddddddddd", connected);
   return (
     // <AuthApi.Provider value={{ connected, setConnected }}>
     <Router>

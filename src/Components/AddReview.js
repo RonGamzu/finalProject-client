@@ -60,7 +60,6 @@ export default function AddReview({ connected, handleAddReview }) {
         setMovieExists(false);
         setMovieExistsError(true);
       }
-      console.log(movie[0]);
       return movie[0][0];
     } else {
       setMovieExistsError(false);
@@ -80,19 +79,15 @@ export default function AddReview({ connected, handleAddReview }) {
     onSubmit: async (values) => {
       const { id: movieId } = movieExists;
       const { id: userId } = connected[0];
-      console.log("movieId: ", movieId, ".//////userId: ", userId);
       const submit = await postData("http://localhost:3100/reviews", {
         ...values,
         rating: +values.rating,
         movieId,
         userId,
       });
-      console.log("DELETE Review WOWWWWW: ", submit);
-      console.log("handleClick();");
       handleClick();
     },
   });
-  console.log("review formik values: ", formik.values);
   return (
     <Container>
       <Row className="justify-content-center">

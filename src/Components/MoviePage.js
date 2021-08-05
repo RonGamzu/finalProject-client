@@ -45,7 +45,7 @@ export default function MoviePage({connected}) {
               />
             </Col>
             <Col lg={4} md={4} sm={12} xs={12}>
-              <div className="text-center" style={{ wordBreak: "break-all" }}>
+              <div className="text-center" style={{ wordWrap: 'break-word' }}>
                 <h2 style={{ color: "orange" }}>
                   {/* {movieDetails && movieDetails.movie_name} */}
                   {movieDetails.movie_name}
@@ -98,7 +98,8 @@ export default function MoviePage({connected}) {
                               {review.post_date.split("T")[0]}
                             </p>
                             <br />
-                            {review.review_body}
+                            <p style={{fontWeight: 'bold'}}>{review.review_body}</p>
+                            
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -106,7 +107,7 @@ export default function MoviePage({connected}) {
                   })}
                 </Accordion>
               ) : (
-                <h2>No reviews yet</h2>
+                <h2 classNmae='text-center'>There are no reviews yet</h2>
               )}
             </Col>
           </Row>

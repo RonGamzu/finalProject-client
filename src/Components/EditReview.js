@@ -32,7 +32,6 @@ export default function EditReview({ connected, handleAddReview }) {
     history.push("/myReviews");
   }
   const { id } = useParams();
-  console.log("reviewId! @# ", id);
   const [review, setReview] = useState({
     movie_name: "",
     title: "",
@@ -42,22 +41,18 @@ export default function EditReview({ connected, handleAddReview }) {
   //   const [reviewDetails, setReviewDetails] = useState({});
   useEffect(() => {
     const callApi = async () => {
-      console.log("reviewId! @# ", id);
       const reviewDetails = await getReviewById(id);
       //   setReviewDetails(r[0][0]);
       setReview(reviewDetails[0][0]);
-      console.log("EDIT REVIEW: ", review);
     };
     callApi();
   }, []);
 
   const deleteReview = async () => {
     const ok = await deleteData("http://localhost:3100/reviews", { id: id });
-    console.log("that what i delete: ", ok);
     handleClick();
   };
 
-  console.log("EDIT REVIEW the firstt: ", review);
 
   const validationSchema = Yup.object({
     movieName: Yup.string().required("Required"),
@@ -80,7 +75,6 @@ export default function EditReview({ connected, handleAddReview }) {
         setMovieExists(false);
         setMovieExistsError(true);
       }
-      console.log(movie[0]);
       return movie[0][0];
     } else {
       setMovieExistsError(false);
@@ -100,16 +94,13 @@ export default function EditReview({ connected, handleAddReview }) {
     onSubmit: async (values) => {
       const { id: movieId } = movieExists;
       const { id: userId } = connected[0];
-      console.log("movieId: ", movieId, ".//////userId: ", userId);
       const submit = await putData("http://localhost:3100/reviews/update", {
         ...values,
         movieId,
         userId,
         reviewId: id,
       });
-      console.log("AddReview WOWWWWW: ", submit);
       if (!submit.length) {
-        console.log("not find user!!!");
         setSubmitError("error");
       } else {
         setSubmitError(null);
@@ -117,7 +108,6 @@ export default function EditReview({ connected, handleAddReview }) {
       }
     },
   });
-  console.log("EDITreview formik values: ", formik.values);
   return (
     <Container>
           <Row className="justify-content-center">

@@ -8,7 +8,7 @@ function MovieCard({ index, name, imgSrc, synopsis, id }) {
       <Card.Img variant="top" src={imgSrc} fluid height='250px' style={{objectFit: 'cover'}} />
       <Card.Body height='200px'>
         <Card.Title>{name.length > 20 ? name.slice(0,20) + "..." : name}</Card.Title>
-        <Card.Text>{synopsis.slice(0,45)+ "..."}</Card.Text>
+        <Card.Text>{synopsis.slice(0,35)+ "..."}</Card.Text>
         <Link to={`/moviePage/${id}`}>
           <Button style={{position: 'absolute', bottom: '20px'}} className='mb-0' variant="warning">See review</Button>
         </Link>

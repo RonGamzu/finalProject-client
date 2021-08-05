@@ -49,12 +49,10 @@ export default function AddMovie({
   const [submitError, setSubmitError] = useState(null);
   const [movieExists, setMovieExists] = useState(true);
   const [movieExistsError, setMovieExistsError] = useState(false);
-  console.log("connected", connected);
 
   const checkMovieName = async (name) => {
     if (name !== "") {
       const movie = await ifMovieExists(name);
-      console.log("PKKK666", movie[0].length);
       if (movie[0].length === 0) {
         setMovieExists(false);
         setMovieExistsError(false);
@@ -62,7 +60,6 @@ export default function AddMovie({
         setMovieExists(!!movie[0][0]);
         setMovieExistsError(true);
       }
-      console.log(movie[0]);
       return movie[0][0];
     } else {
       setMovieExists(true);
@@ -74,14 +71,11 @@ export default function AddMovie({
     validationSchema,
     onSubmit: async (values) => {
       const { id: userId } = connected[0];
-      console.log("submit!");
       const movieId = await postData("http://localhost:3100/movies", {
         ...values,
         userId,
       });
-      console.log("AddMovie xdxxdxdxd: ", movieId);
       if (!movieId.length) {
-        console.log("not find user!!!");
         setSubmitError("Email is already exists");
       } else {
         getMoviesData();
@@ -90,8 +84,7 @@ export default function AddMovie({
       }
     },
   });
-  console.log("AddMovie formik values: ", formik.values);
-  // console.log('**********************', formik.values.coverUrl);
+
 
   return (
     <Container>
