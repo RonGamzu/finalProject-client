@@ -11,9 +11,7 @@ function GenrePage({ genres, movies }) {
   const { genreId } = useParams();
   const [genreMovies, setGenreMovies] = useState([]);
   useEffect(async () => {
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     const moviesOfGenre = await getAllMoviesOfGenre(genreId);
-    console.log("The movies of this genre: ", moviesOfGenre);
     setGenreMovies(moviesOfGenre[0]);
   }, [genreId]);
   return (

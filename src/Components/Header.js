@@ -10,13 +10,6 @@ import { getAllGenres } from "../DAL/api";
 import { useEffect, useState } from "react";
 
 function Header({genres, connected, handleLogOut}) {
-  console.log('from header', connected);
-  // const [genres, setGenres] = useState('')
-  // useEffect(async () => {
-  //   const allGenres = await getAllGenres();
-  //   setGenres(allGenres[0])
-  //   console.log('get all genres for dropdown: ', allGenres);
-  // }, [])
   return (
     <Navbar variant='light' bg="dark" expand="lg" className="text-warning">
       <Link to="/home">

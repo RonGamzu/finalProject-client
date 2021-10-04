@@ -12,12 +12,9 @@ export default function MyReviews({ connected, rest }) {
   }
   useEffect(async() => {
     if (connected) {
-      console.log('MyReviews: connected[0] ', connected[0]);
       setReviews(await postData("http://localhost:3100/reviews/user",connected[0]));
-      console.log('and reviews after:  ', reviews); 
     }
   }, []);
-  console.log('reviews::', reviews);
   return (
     <Container className="mt-5">
       {reviews.length > 0 &&

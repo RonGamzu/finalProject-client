@@ -3,13 +3,6 @@ async function getAllMovies() {
   const resolve = await response.json();
   return resolve;
 }
-// async function getAllMovies() {
-//   const response = await fetch(`http://127.0.0.1:5000/movies`);
-//   console.log('what i get from Flask: -----------', response);
-//   const resolve = await response.json();
-//   console.log('what i get from Flask: resolve -----------', resolve);
-//   return resolve;
-// }
 
 async function getMovieDetails(id) {
   const response = await fetch(`http://localhost:3100/movies/${id}`);

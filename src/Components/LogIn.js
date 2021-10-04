@@ -29,11 +29,8 @@ export default function LogIn({ handleLogIn }) {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log("submit!", values);
       const submit = await handleLogIn(values);
-      console.log("Marta", submit);
       if (!submit.length) {
-        console.log("user not find!!!");
         setSubmitError("Email or password are incorect");
       } else {
         setSubmitError(null);
@@ -42,7 +39,6 @@ export default function LogIn({ handleLogIn }) {
     },
   });
 
-  // console.log("formik errors", formik.errors);
   return (
     <Container>
       <Row className="justify-content-center">

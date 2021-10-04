@@ -2,7 +2,6 @@ import { NavDropdown, DropdownButton, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function GenresDropdown({ genres }) {
-  console.log('test genre', genres);
   return (
     // <Nav onSelect={handleSelect}>
     //   <NavDropdown title="Genres" id="basic-nav-dropdown">

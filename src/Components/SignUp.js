@@ -13,7 +13,6 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
   function handleClick() {
     history.push("/home");
   }
-  console.log("log from signUp: ", connected);
 
   const validationSchema = Yup.object({
     userName: Yup.string()
@@ -43,7 +42,6 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
       if (!connected) {
         const submit = await handleSignUp(values);
         if (!submit.length) {
-          console.log("not find user!!!");
           setSubmitError("Email already exists");
         } else {
           setSubmitError(null);
@@ -54,7 +52,6 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
           "http://localhost:3100/signUp/update",
           values
         );
-        console.log('updatedDetails PROFILE: ', updatedDetails);
         Cookies.set("user",  updatedDetails[0]);
         readCookie();
         handleClick();
@@ -70,9 +67,6 @@ export default function SignUp({ connected, genres, handleSignUp, readCookie }) 
     }
   }, []);
 
-  console.log("formik values", formik.values);
-  console.log("genressssss", genres);
-  console.log("O.K now i connected", connected);
 
   return (
     <Container>

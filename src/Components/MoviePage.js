@@ -14,17 +14,13 @@ export default function MoviePage({connected}) {
 
   useEffect(async () => {
     getMovieDetails(id).then((response) => {
-      console.log("ISRAELA", response);
       setMovieDetails(response[0][0]);
     });
     getMovieImage(id).then((response) => setMovieImage(response[0][0]));
     getMovieReviews(id).then((response) => setMovieReviews(response[0]));
   }, []);
 
-  // const commentOwner = async () =>{
 
-  // }
-  // console.log('MAMAMAIYAAA', movieDetails.trailer_url);
   const VideoOpts = {
     height: "400px",
     width: "350px",
